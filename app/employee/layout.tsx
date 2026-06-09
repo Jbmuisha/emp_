@@ -1,69 +1,81 @@
 "use client";
+
+import Navbar from "@/components/Navbar";
+import Sidebar from "@/components/Sidebar";
+import type { LayoutProps, User } from "../types";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { FaCalendarDay, FaFileWord, FaMeetup, FaTachometerAlt, FaWallet } from "react-icons/fa";
-import { UserData } from "@/app/types";
-import Sidebar from "../components/Sidebar";
-import Navbar from "../components/Navbar";
+import { FaAccessibleIcon, FaLine, FaListAlt, FaTachometerAlt, FaWallet } from "react-icons/fa";
+import { FaFileCircleCheck, FaList } from "react-icons/fa6";
+import { errorMonitor } from "events";
 
-export default function EmployeeLayout({
-   children,
-}:{
-  children: React.ReactNode;
-}){
+export default function EmployeeLayout({ children }: LayoutProps) {
   const router = useRouter();
-  
-  // State explicitly typed using the interface above
-  const [user, setUser] = useState<UserData | null>(null);
+  const [user, setUser] = useState("emplyoyee");
 
   useEffect(() => {
     const userStr = localStorage.getItem("user");
+
     if (!userStr) {
       router.push("/");
       return;
     }
-    try {
-      const userData: UserData = JSON.parse(userStr);
-      setUser(userData);
-      if (userData.role !== "employee") {
-        router.push("/");
-      }
-    } catch (error) {
-      console.error("Failed to parse user data from localStorage", error);
+    try{
+
+    const userData = JSON.parse(userStr);
+
+    if (userData.role !== "employee") {
       router.push("/");
+    
     }
+    else{
+      setUser(userData.name || userData.email || "employee");
+    }
+  }catch(error){
+   console.error("Failed to parse user data", error);
+   router.push('/');
+
+  }
   }, [router]);
 
-  const handleLogout = () => {
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-    router.push("/");
-  };
 
-  const employeeLinks = [
-    { href: "/employee/dashboard", label: "Dashboard", icon: <FaTachometerAlt /> },
-    { href: "/employee/salary", label: "Salary", icon: <FaWallet /> },
-    { href: "/employee/department", label: "Department", icon: <FaFileWord /> },
-    { href: "/employee/attendance", label: "Attendance", icon: <FaCalendarDay /> },
-    { href: "/employee/meeting", label: "Meeting", icon: <FaMeetup /> },
-  ];
 
-  const userName = user?.name || user?.email || "Employee";
+  const employeeItem=[
+    {href:"/employee/dashbord",label:"dashbord",icon:<FaTachometerAlt/>},
+    {href:"/employee/products",label:"products",icon:<FaListAlt/>},
+    {href:"/employee/programs",label:"programs",icon:<FaFileCircleCheck/>},
+    {href:"/employee/appointment",label:"appointement",icon:<FaList/>},
+    {href:"/employee/attendance",label:"attendace",icon:<FaAccessibleIcon/>},
+    {href:"/employee/finances",label:"finances",icon:<FaWallet/>}
 
-  return (
-    <div className="flex min-h-screen">
-      <Sidebar
-        title="Employee Panel"
-        links={employeeLinks}
-        onLogout={handleLogout}
-      />
+  ]
 
-      <div className="flex-1 flex flex-col">
-        <Navbar title="Employee Dashboard" userName={userName} />
-        <main className="flex-1 p-6 bg-slate-50">
-          {children}
-        </main>
-      </div>
-    </div>
-  );
-}
+  function handleLogout(): void {
+    throw new Error("Function not implemented.");
+  }
+
+  return(
+    
+   <div className="flex min-h-screen">
+         <Sidebar
+           title="Admin Panel"
+           links={employeeItem}
+           onLogout={handleLogout}
+         />
+   
+         <div className="flex-1 flex flex-col">
+           <Navbar
+             title="Admin Dashboard"
+             userName={user}
+             showSearch
+             showNotifications
+             showTranslate
+             showLogo
+           />
+   
+           <main className="flex-1 p-6 bg-slate-50">
+             {children}
+           </main>
+         </div>
+       </div>)
+};

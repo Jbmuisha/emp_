@@ -1,56 +1,79 @@
 "use client";
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
-import type { ReactNode } from 'react';
-import Sidebar from '../components/Sidebar';
-import Navbar from '../components/Navbar';
+import { useEffect, useState } from 'react';
+import Sidebar from '../../components/Sidebar';
+import Navbar from '../../components/Navbar';
+import {
+  FaTachometerAlt,
+  FaWallet,
+  FaFileWord,
+  FaCalendarDay,
+  FaMeetup,
+  FaMoneyBill,
+  FaWordpress,
+} from 'react-icons/fa';
 
-export default function AdminLayout({
-  children,
-}: {
-  children: ReactNode
-}) {
-  const router = useRouter()
+export default function AdminLayout({ children }) {
+  const router = useRouter();
+  const [userName, setUserName] = useState("Admin");
 
   useEffect(() => {
-    const userStr = localStorage.getItem('user')
+    const userStr = localStorage.getItem('user');
     if (!userStr) {
-      router.push('/')
-      return
+      router.push('/');
+      return;
     }
-    const user = JSON.parse(userStr)
-    if (user.role !== 'admin') {
-      router.push('/')
+    try {
+      const user = JSON.parse(userStr);
+      if (user.role !== 'admin') {
+        router.push('/');
+      } else {
+        setUserName(user.name || user.email || "Admin");
+      }
+    } catch (error) {
+      console.error("Failed to parse user data", error);
+      router.push('/');
     }
-  }, [router])
+  }, [router]);
 
   const handleLogout = () => {
-    localStorage.removeItem('user')
-    router.push('/')
-  }
+    localStorage.removeItem('user');
+    localStorage.removeItem('token');
+    router.push('/');
+  };
+
+  const adminLinks = [
+    { href: "/admin/dashboard",  label: "Dashboard",  icon: <FaTachometerAlt /> },
+    { href: "/admin/salary",     label: "Salary",     icon: <FaWallet />        },
+    { href: "/admin/department", label: "Department", icon: <FaFileWord />      },
+    { href: "/admin/attendance", label: "Attendance", icon: <FaCalendarDay />   },
+    { href: "/admin/appointment",label: "Appointment",icon: <FaMeetup />        },
+    { href: "/admin/work",       label: "Work",       icon: <FaWordpress />     },
+    { href: "/admin/finance",    label: "Finance",    icon: <FaMoneyBill />     },
+  ];
 
   return (
     <div className="flex min-h-screen">
-      {/* Sidebar - composant réutilisable */}
       <Sidebar
         title="Admin Panel"
-        links={[
-          { href: "/admin/dashbord", label: "Dashboard" }
-        ]}
+        links={adminLinks}
         onLogout={handleLogout}
       />
 
-      {/* Main Content */}
       <div className="flex-1 flex flex-col">
-        {/* Navbar - composant réutilisable */}
-        <Navbar title="Admin Dashboard" userName="Admin" />
+        <Navbar
+          title="Admin Dashboard"
+          userName={userName}
+          showSearch
+          showNotifications
+          showTranslate
+          showLogo
+        />
 
-        {/* Page Content */}
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 bg-slate-50">
           {children}
         </main>
       </div>
     </div>
-  )
+  );
 }

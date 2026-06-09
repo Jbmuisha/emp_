@@ -1,5 +1,9 @@
 import type { ReactNode } from "react";
 
+export type LayoutProps = {
+  children: ReactNode;
+};
+
 // ============================================
 // Re-export React Types
 // ============================================
@@ -10,16 +14,14 @@ import type { ReactNode } from "react";
  * ReactElement only represents JSX, ReactNode represents everything that can be rendered.
  * @see https://react-typecript-cheatsheet.netlify.app/docs/types/react-node
  */
-export type { ReactNode };
-export type { ReactNode as ReactNodeType };
 
 // ============================================
 // Layout Types
 // ============================================
 
 /** Common props for all layout components */
-export interface LayoutProps {
-  children: ReactNode;
+export interface LayoutComponentProps {
+  className?: string;
 }
 
 /** Root layout props */
@@ -32,7 +34,8 @@ export interface RootLayoutProps extends LayoutProps {
 // ============================================
 
 /** User data from localStorage */
-export interface UserData {
+export interface User {
+  id: number;
   name?: string;
   email?: string;
   role: "admin" | "employee";
