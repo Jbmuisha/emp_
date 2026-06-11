@@ -2,7 +2,7 @@
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-export default function adminDashboard() {
+export default function AdminDashboard() {
     const router= useRouter()
     useEffect(()=>{
         const useStr = localStorage.getItem('user');

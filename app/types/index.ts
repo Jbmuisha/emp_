@@ -42,7 +42,9 @@ export interface NavbarProps {
   showLogo?: boolean;
 }
 
-export interface PageProps {}
+export interface PageProps {
+  // Add specific page props if needed
+}
 
 export type DeepPartial<T> = {
   [P in keyof T]?: T[P] extends object ? DeepPartial<T[P]> : T[P];

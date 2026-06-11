@@ -54,15 +54,21 @@ export default function UserManagerForm() {
     } catch (err) {
       alert("Error saving record to database.");
     }
+  };
 
-  // Setup Column Def mapped to MongoDB keys
+// Setup Column Def mapped to MongoDB keys
   const columnHelper = createColumnHelper<IUser>();
+  
   const columns = [
-    columnHelper.accessor("username", { header: "Username" }),
-    columnHelper.accessor("email", { header: "Email Address" }),
+    columnHelper.accessor("username", {
+      header: "Username",
+    }),
+    columnHelper.accessor("email", {
+      header: "Email Address",
+    }),
     columnHelper.accessor("role", {
       header: "Role",
-      cell: info => {
+      cell: (info) => {
         const val = info.getValue();
         return (
           <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ${
@@ -74,14 +80,14 @@ export default function UserManagerForm() {
     columnHelper.display({
       id: "actions",
       header: () => <div className="text-right">Actions</div>,
-      cell: props => (
+      cell: () => (
         <div className="flex justify-end gap-2">
           <button className="p-1.5 text-slate-500 hover:text-blue-600 rounded-md hover:bg-slate-100 transition"><Edit2 className="w-4 h-4" /></button>
           <button className="p-1.5 text-slate-500 hover:text-rose-600 rounded-md hover:bg-slate-100 transition"><Trash2 className="w-4 h-4" /></button>
         </div>
       ),
     }),
-  ];
+  ] as any[];
 
   const table = useReactTable({
     data: users,
@@ -173,5 +179,4 @@ export default function UserManagerForm() {
       </div>
     </div>
   );
-}
 }
