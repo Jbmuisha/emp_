@@ -36,8 +36,8 @@ const formFields: { name: "username" | "password"; label: string; type: string; 
     setError("");
   };
 
-  // 4. Form submission handler
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+// 4. Form submission handler
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
     setLoading(true);
     setError("");
