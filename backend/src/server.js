@@ -3,10 +3,12 @@ const exp = require("express");
 const cors = require("cors");
 const mongodb = require("./config/db");
 const authRoutes = require("./routes/authRoutes");
+const userRoutes = require("./routes/userRoutes");
 const app=exp();
 //the problem of cors de fois 
 app.use(cors());
 app.use(exp.json());
+app.use("/api/users", userRoutes);
 
 // Connect to MongoDB and start server
 const startServer = async () => {
