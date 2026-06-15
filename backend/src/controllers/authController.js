@@ -7,6 +7,16 @@ exports.login=async(req,res)=>{
     try{
         const {email , password}= req.body;
         const user= await User.findOne({email});
+
+        try{
+            if(!email || !password){
+                return res.status(400).json({message:"please provide email and password"})
+            }
+        }
+        catch(error){
+            return res.status(400).json({message:error.message})
+        }
+        
         if(!user){
             return res.status(400).json({ message:"invalide credentials"})
         };

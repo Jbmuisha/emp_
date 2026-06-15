@@ -22,6 +22,9 @@ async function connectToDatabase() {
 export async function GET() {
   await connectToDatabase();
   const users = await User.find().select("-password");
+  if (!users == null || users.length === 0) {
+    return NextResponse.json({ message: "No users found" }, { status: 404 });
+  }
   return NextResponse.json(users);
 }
 

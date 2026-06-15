@@ -45,12 +45,14 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
 
   const adminLinks = [
     { href: "/admin/dashboard",   label: "Dashboard",   icon: <FaTachometerAlt /> },
+    { href: "/admin/products",    label: "Products",    icon: <FaTachometerAlt /> },
     { href: "/admin/salary",      label: "Salary",      icon: <FaWallet />        },
     { href: "/admin/department",  label: "Department",  icon: <FaFileWord />      },
     { href: "/admin/attendance",  label: "Attendance",  icon: <FaCalendarDay />   },
     { href: "/admin/appointment", label: "Appointment", icon: <FaMeetup />        },
     { href: "/admin/work",        label: "Work",        icon: <FaWordpress />     },
     { href: "/admin/finance",     label: "Finance",     icon: <FaMoneyBill />     },
+
     {href:"/admin/usermanage",label:"usermanger",icon:<FaUser/>}
   ];
 
