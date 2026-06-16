@@ -131,6 +131,7 @@ const filteredProducts = products.filter((p) =>
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
         <h1 className="text-xl font-bold mb-6">Products Manager</h1>
 
+
         <form
           onSubmit={handleSubmit}
           className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"
@@ -290,7 +291,7 @@ const filteredProducts = products.filter((p) =>
               </h2>
 
               <p className="text-sm text-gray-600 mt-2">
-                You are currently editing a product. Make your changes and click "Update Product" to save.
+                You are currently editing a product. Make your changes and click Update Product to save.
               </p>
 
               <div className="flex justify-end gap-3 mt-6">

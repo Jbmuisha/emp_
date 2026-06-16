@@ -1,5 +1,7 @@
 export default function appointement(){
     return (
-       <div></div>
+       <div>
+        
+       </div>
     )
 }
