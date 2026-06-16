@@ -105,6 +105,7 @@ export default function AdminDepartment() {
              </thead>
 
              <tbody className="divide-y divide-slate-100">
+              
 
               
              </tbody>
