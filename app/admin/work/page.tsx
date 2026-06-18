@@ -37,6 +37,7 @@ export default function AdminWork() {
               <option value="">{}</option>
             </select>
           </div>
+
           <div className="flex flex-col gap-1.5 md:col-span-1 lg:col-span-2">
             <label htmlFor="" className="text-sm text-blue-700 font-bold ">
               {" "}
@@ -51,6 +52,19 @@ export default function AdminWork() {
               <option value="">{}</option>
             </select>
           </div>
+          <div className="flex flex-col gap-1.5">
+            <label htmlFor="" className="text-sm text-blue-700 font-bold">
+              {" "}
+              Task
+            </label>
+            <textarea
+              name=""
+              id=""
+              className="border p-5 rounded-lg bg-white text-blue-800"
+              placeholder="task of the day"
+            ></textarea>
+          </div>
+          <div className="flex  flex-col gap-2">
           <div className="grid grid-cols-7 gap-1">
             <label
               htmlFor=""
@@ -67,6 +81,7 @@ export default function AdminWork() {
                 {val}
               </button>
             ))}
+          </div>
           </div>
         </form>
       </div>
