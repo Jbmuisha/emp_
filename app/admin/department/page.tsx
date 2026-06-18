@@ -194,6 +194,7 @@ export default function AdminDepartment() {
               </tr>
             </thead>
             
+            
             <tbody className="divide-y divide-slate-100">
               {loading ? (
                 <tr>

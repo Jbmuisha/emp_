@@ -1,22 +1,33 @@
 "use client";
 import { useRouter } from 'next/navigation';
-import { useEffect, useState, ReactNode } from 'react';
-import Sidebar from '../../components/Sidebar';
-import Navbar from '../../components/Navbar';
+import { ReactNode, useEffect, useState } from 'react';
 import {
-  FaTachometerAlt,
-  FaWallet,
-  FaFileWord,
   FaCalendarDay,
+  FaFileWord,
   FaMeetup,
   FaMoneyBill,
-  FaWordpress,
+  FaTachometerAlt,
   FaUser,
+  FaWallet,
+  FaWordpress,
 } from 'react-icons/fa';
+import Navbar from '../../components/Navbar';
+import Sidebar from '../../components/Sidebar';
 
 export default function AdminLayout({ children }: { children: ReactNode }) {
   const router = useRouter();
-  const [userName, setUserName] = useState("Admin");
+  const [userName, setUserName] = useState<string>('');
+  useEffect(() => {
+    // read user data once after mount (safe to access localStorage here)
+    try {
+      const userStr = localStorage.getItem('user');
+      if (!userStr) return;
+      const user = JSON.parse(userStr);
+      setUserName(user.name || user.email || 'Admin');
+    } catch (error) {
+      console.error("Failed to parse user data", error);
+    }
+  }, []);
 
   useEffect(() => {
     const userStr = localStorage.getItem('user');
@@ -28,8 +39,6 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
       const user = JSON.parse(userStr);
       if (user.role !== 'admin') {
         router.push('/');
-      } else {
-        setUserName(user.name || user.email || "Admin");
       }
     } catch (error) {
       console.error("Failed to parse user data", error);
@@ -50,7 +59,7 @@ export default function AdminLayout({ children }: { children: ReactNode }) {
     { href: "/admin/department",  label: "Department",  icon: <FaFileWord />      },
     { href: "/admin/attendance",  label: "Attendance",  icon: <FaCalendarDay />   },
     { href: "/admin/appointment", label: "Appointment", icon: <FaMeetup />        },
-    { href: "/admin/work",        label: "Work",        icon: <FaWordpress />     },
+    { href: "/admin/work",        label: "Workschedular",        icon: <FaWordpress />     },
     { href: "/admin/finance",     label: "Finance",     icon: <FaMoneyBill />     },
 
     {href:"/admin/usermanage",label:"usermanger",icon:<FaUser/>}

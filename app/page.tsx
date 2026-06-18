@@ -1,6 +1,6 @@
 "use client";
-import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 export default function Login() {
   const router = useRouter();
@@ -84,8 +84,8 @@ const formFields: { name: "username" | "password"; label: string; type: string; 
       // Redirect to dashboard or home
       
       
-    } catch (err: any) {
-      setError(err.message || "An error occurred during login");
+    } catch (errpr) {
+      console.error("An error occurred during login")
     } finally {
       setLoading(false);
     }
