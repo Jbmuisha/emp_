@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
+import bcrypt from "bcryptjs";
 import mongoose from "mongoose";
+import { NextResponse } from "next/server";
 
 const MONGO_URL = process.env.MONGO_URL as string;
 
@@ -7,7 +8,8 @@ const UserSchema = new mongoose.Schema({
   username: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, enum: ["admin", "employee"], default: "employee" }
+  role: { type: String, enum: ["admin", "employee"], default: "employee" },
+  departmentId: { type: String }
 }, { timestamps: true });
 
 const User = mongoose.models.User || mongoose.model("User", UserSchema);
@@ -37,13 +39,12 @@ export async function POST(request: Request) {
   if (!username || !email || !password || !role) {
     return NextResponse.json({ error: "Missing required fields" }, { status: 400 });
   }
-
   try {
-    const bcrypt = require("bcryptjs");
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await User.create({ username, email, password: hashedPassword, role });
     return NextResponse.json(user, { status: 201 });
   } catch (error) {
     return NextResponse.json({ error: "Error creating user" }, { status: 500 });
   }
-}
+  }
+

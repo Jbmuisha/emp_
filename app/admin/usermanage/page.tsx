@@ -125,7 +125,7 @@ export default function UserManagerForm() {
         </div>
       ),
     }),
-  ] as any[];
+  ] as never[];
 
   const table = useReactTable({
     data: users,

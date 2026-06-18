@@ -10,6 +10,11 @@ const UserSchema = new mongoose.Schema(
       enum: ["admin", "employee"],
       default: "employee",
     },
+    departmentId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Department",
+      default: null,
+    },
   },
   { timestamps: true }
 );

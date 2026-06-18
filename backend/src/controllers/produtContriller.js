@@ -1,6 +1,5 @@
 const Product = require("../models/products");
 
-
 exports.createProduct = async (req, res) => {
     try {  
         const { name, description, price, category, stockQuantity } = req.body;
@@ -29,6 +28,7 @@ exports.getProducts = async (req, res) => {
     }
 
 }
+
 //get product by id
 exports.getProductById = async (req, res) => {
     try {
@@ -41,6 +41,7 @@ exports.getProductById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 //update product by id
 exports.updateProduct = async (req, res) => {
     try {
@@ -48,7 +49,7 @@ exports.updateProduct = async (req, res) => {
         const updatedProduct = await Product.findByIdAndUpdate(
             req.params.id,
             { name, description, price, category, stockQuantity },
-            { new: true }
+            { returnDocument: 'after' }
         );
         if (!updatedProduct) {
             return res.status(404).json({ message: "Product not found" });
@@ -58,6 +59,7 @@ exports.updateProduct = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 }
+
 exports.deleteProduct = async (req, res) => {
     try{
         const deletedProduct = await Product.findByIdAndDelete(req.params.id);
