@@ -21,9 +21,9 @@ async function connectToDatabase() {
 }
 
 // PUT - Assign department to user
-export async function PUT(request: Request, { params }: { params: { id: string } }) {
+export async function PUT(request: Request, context: { params: { id: string } }) {
   await connectToDatabase();
-  const { id } = params;
+  const { id } = context.params;
   const { departmentId } = await request.json();
 
   const updatedUser = await User.findByIdAndUpdate(
