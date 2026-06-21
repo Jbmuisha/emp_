@@ -5,9 +5,10 @@ import { IDepartment } from "@/app/types/department";
 import { IScheduler, SchedulerDay } from "@/app/types/schedule";
 import { IUser } from "@/app/types/Users";
 import { Calendar, Clock, Plus, Users, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const DAYS: SchedulerDay[] = ["Lun", "Mar", "Mer", "Jeu", "Ven", "Sam", "Dim"];
+
 
 export default function SchedulerUI() {
   const [departmentname, setDepartment] = useState<IDepartment[]>([]);
@@ -23,6 +24,30 @@ export default function SchedulerUI() {
 
   const [selectedDepartmentId, setSelectedDepartmentId] = useState<string>("");
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<string>("");
+
+  useEffect(() => {
+    async function loadAll() {
+      // 1) departments
+      const depRes = await fetch("/api/department");
+      const depData = await depRes.json();
+      setDepartment(Array.isArray(depData) ? depData : []);
+
+      // 2) users -> keep only employees
+      const empRes = await fetch("/api/users");
+      const empData = await empRes.json();
+      const onlyEmployees = Array.isArray(empData)
+        ? empData.filter((u: IUser) => u.role === "employee")
+        : [];
+      setEmployees(onlyEmployees);
+
+      // 3) schedules (optional pour l’instant)
+      // const schRes = await fetch("/api/work");
+      // const schData = await schRes.json();
+      // setSchedulers(Array.isArray(schData) ? schData : []);
+    }
+
+    loadAll();
+  }, []);
 
   return (
     <div className="min-h-screen bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 relative">
